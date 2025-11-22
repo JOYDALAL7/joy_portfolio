@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  --color-accent: #00ff9d;
+  --color-accent-secondary: #00d97e;
+  --color-bg: #030303;
+  --color-surface: #0a0a0a;
+  --color-surface-glass: rgba(10, 10, 10, 0.6);
+  --color-glow: rgba(0, 255, 157, 0.3);
+  --color-glow-strong: rgba(0, 255, 157, 0.6);
+  --color-particle: #00ff9d;
+
+  /* Fonts */
+  --font-orbitron: 'Orbitron', sans-serif;
+  --font-inter: 'Inter', sans-serif;
+}
+
+html,
+body {
+  background: var(--color-bg);
+  color: #fff;
+  font-family: var(--font-inter);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border-radius: 9999px;
+  transition: background 0.2s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent-secondary);
+  box-shadow: 0 0 10px var(--color-glow);
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  background: var(--color-surface-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 20px var(--color-glow);
+}
+
+/* Text Glow Utilities */
+.text-glow {
+  text-shadow: 0 0 10px var(--color-glow);
+}
+
+.text-glow-strong {
+  text-shadow: 0 0 20px var(--color-glow-strong), 0 0 40px var(--color-glow);
+}
+
+/* Hide default cursor */
+* {
+  cursor: none !important;
+}
+
+/* 3D Canvas Container */
+.canvas-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}

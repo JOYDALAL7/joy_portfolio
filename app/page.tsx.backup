@@ -1,0 +1,253 @@
+import { FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import { SiReact, SiNextdotjs, SiNodedotjs, SiMongodb, SiTailwindcss, SiTypescript, SiJavascript, SiPython, SiAmazon, SiDocker, SiGit, SiLinux } from "react-icons/si";
+import Navbar from "./components/Navbar";
+import Section from "./components/Section";
+import Hero from "./components/Hero";
+import Background3D from "./components/Background3D";
+import ScrollProgress from "./components/ScrollProgress";
+import TechDecoration from "./components/TechDecoration";
+import SkillBar from "./components/SkillBar";
+import ThemeSwitcher from "./components/ThemeSwitcher";
+import ContactForm from "./components/ContactForm";
+import SnakeGame from "./components/SnakeGame";
+import CommandPalette from "./components/CommandPalette";
+import Hero3D from "./components/Hero3D";
+import { AchievementProvider } from "./components/AchievementPopup";
+
+export default function HomePage() {
+  return (
+    <AchievementProvider>
+      <main className="min-h-screen bg-background text-white bg-grid relative overflow-x-hidden">
+        {/* Subtle overlay gradient */}
+        <ScrollProgress />
+        <Background3D />
+        <TechDecoration />
+        <ThemeSwitcher />
+        <SnakeGame />
+        <CommandPalette />
+        <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_top,_rgba(0,255,157,0.08),_transparent_60%)]"></div>
+
+        <Navbar />
+
+        {/* Hero */}
+        <Hero />
+
+        {/* About */}
+        <Section id="about" title="About Me">
+          <div className="bg-surface/50 border border-white/5 rounded-2xl p-8 md:p-10 backdrop-blur-sm">
+            <p className="text-gray-300 leading-relaxed text-lg">
+              I&apos;m a cybersecurity-focused full-stack developer experienced in
+              building scalable web applications, secure APIs, and cloud-native
+              systems. I work across the stack with <span className="text-accent">React, Next.js, Node.js, and MongoDB</span>,
+              while applying security best practices and performance
+              optimization to deliver reliable products. My passion lies in creating software that is not only functional and beautiful but also inherently secure.
+            </p>
+          </div>
+        </Section>
+
+        {/* Skills */}
+        <Section id="skills" title="Technical Arsenal">
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Frontend */}
+            <div className="bg-surface/30 border border-white/5 rounded-xl p-8 hover:border-accent/30 transition-colors group backdrop-blur-sm">
+              <h3 className="text-xl font-semibold mb-6 text-accent flex items-center gap-2">
+                <span className="w-2 h-8 bg-accent rounded-full"></span> Frontend Development
+              </h3>
+              <div>
+                <SkillBar icon={<SiReact />} name="React" level={95} delay={0} />
+                <SkillBar icon={<SiNextdotjs />} name="Next.js" level={92} delay={0.1} />
+                <SkillBar icon={<SiTypescript />} name="TypeScript" level={88} delay={0.2} />
+                <SkillBar icon={<SiJavascript />} name="JavaScript" level={94} delay={0.3} />
+                <SkillBar icon={<SiTailwindcss />} name="Tailwind CSS" level={96} delay={0.4} />
+              </div>
+            </div>
+
+            {/* Backend */}
+            <div className="bg-surface/30 border border-white/5 rounded-xl p-8 hover:border-accent/30 transition-colors group backdrop-blur-sm">
+              <h3 className="text-xl font-semibold mb-6 text-accent flex items-center gap-2">
+                <span className="w-2 h-8 bg-accent rounded-full"></span> Backend & Security
+              </h3>
+              <div>
+                <SkillBar icon={<SiNodedotjs />} name="Node.js" level={93} delay={0} />
+                <SkillBar icon={<SiPython />} name="Python" level={85} delay={0.1} />
+                <SkillBar icon={<SiMongodb />} name="MongoDB" level={90} delay={0.2} />
+                <SkillBar icon={<SiAmazon />} name="AWS" level={82} delay={0.3} />
+                <SkillBar icon={<SiDocker />} name="Docker" level={87} delay={0.4} />
+                <SkillBar icon={<SiLinux />} name="Linux" level={89} delay={0.5} />
+              </div>
+            </div>
+          </div>
+        </Section>
+
+        {/* Experience */}
+        <Section id="experience" title="Professional Journey">
+          <div className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-white/10 before:to-transparent">
+
+            <ExperienceCard
+              role="Cybersecurity Intern"
+              company="IOCL"
+              date="Jun 2025 – Jul 2025"
+              description={[
+                "Automated scanning pipelines, cutting manual review time by 50%.",
+                "Identified 14+ vulnerabilities using Burp Suite, Nmap, and log analysis.",
+                "Built Python automations saving 6+ hours per week."
+              ]}
+              align="left"
+            />
+
+            <ExperienceCard
+              role="Jr. Frontend Developer"
+              company="Devtrend Web Solutions"
+              date="May 2025 – Jun 2025"
+              description={[
+                "Improved Lighthouse score from 68 → 92 by optimizing rendering and bundle splitting.",
+                "Reduced bundle size by 25%, enhancing performance.",
+                "Built reusable UI components used across 3+ apps."
+              ]}
+              align="right"
+            />
+
+          </div>
+        </Section>
+
+        {/* Projects */}
+        <Section id="projects" title="Featured Projects">
+          <div className="grid md:grid-cols-2 gap-6">
+            <ProjectCard
+              title="MindShield AI"
+              tech="Next.js • Node.js • Flask • MongoDB"
+              description="AI-powered threat-analysis platform integrating Node.js backend with Flask OpenAI inference APIs. Reduced inference latency by ~40% through routing optimization and caching."
+              links={{ live: "https://mind-shield-ai.vercel.app/" }}
+              icon={<SiReact />}
+            />
+            <ProjectCard
+              title="Wall Finishing Workflow"
+              tech="React • Node.js • MongoDB"
+              description="Operations dashboard with CRUD workflows and real-time updates. Improved DB query performance by ~60% via indexing and schema optimization."
+              links={{ live: "https://wall-finishing-system.vercel.app/" }}
+              icon={<SiMongodb />}
+            />
+          </div>
+        </Section>
+
+        {/* Education */}
+        <Section id="education" title="Education & Certifications">
+          <div className="bg-surface border border-white/5 rounded-xl p-8 hover:border-accent/30 transition-colors">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+              <div>
+                <h3 className="text-2xl font-bold text-white">B.Tech in Computer Science</h3>
+                <p className="text-accent">Cybersecurity Specialization</p>
+              </div>
+              <div className="text-right mt-2 md:mt-0">
+                <p className="text-gray-400">VIT Bhopal University</p>
+                <p className="text-sm text-gray-500">2021 – 2025</p>
+              </div>
+            </div>
+
+            <div className="border-t border-white/10 pt-6">
+              <h4 className="text-lg font-semibold mb-4 text-gray-200">Certifications & Achievements</h4>
+              <div className="grid sm:grid-cols-2 gap-4">
+                {["AWS Cloud Practitioner", "TryHackMe Top 10%", "Google Bits by Bytes", "Valorant LAN Champion"].map((cert, i) => (
+                  <div key={i} className="flex items-center gap-3 text-gray-400">
+                    <span className="w-1.5 h-1.5 bg-accent rounded-full"></span>
+                    {cert}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Section>
+
+        {/* Contact */}
+        <Section id="contact" title="Let's Connect">
+          <div className="text-center max-w-2xl mx-auto">
+            <p className="text-gray-300 mb-8 text-lg">
+              Open to roles in full-stack development, cybersecurity engineering,
+              and AI-driven products. Let&apos;s build something impactful together.
+            </p>
+
+            <ContactForm />
+
+            <div className="mt-8 flex justify-center items-center gap-2 text-gray-500">
+              <FaMapMarkerAlt />
+              <p>Bengaluru, Karnataka, India</p>
+            </div>
+          </div>
+        </Section>
+
+        <footer className="py-8 text-center text-sm text-gray-600 border-t border-white/5 bg-black">
+          <p>© {new Date().getFullYear()} Joy Dalal. Built with Next.js & Tailwind.</p>
+        </footer>
+      </main>
+      );
+}
+
+      // Helper Components
+
+      function SkillCard({icon, name}: {icon: React.ReactNode, name: string }) {
+  return (
+      <div className="flex flex-col items-center justify-center p-4 bg-surface-hover rounded-lg border border-white/5 hover:border-accent/50 hover:shadow-glow-card transition-all group">
+        <div className="text-3xl text-gray-400 group-hover:text-accent transition-colors mb-2">
+          {icon}
+        </div>
+        <span className="text-xs font-medium text-gray-300">{name}</span>
+      </div>
+      );
+}
+
+      function ExperienceCard({role, company, date, description, align}: {role: string, company: string, date: string, description: string[], align: 'left' | 'right' }) {
+  return (
+      <div className={`relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active`}>
+        <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-black bg-accent shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+          <div className="w-2.5 h-2.5 bg-black rounded-full"></div>
+        </div>
+        <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-surface border border-white/5 p-6 rounded-xl shadow-lg hover:border-accent/30 transition-all">
+          <div className="flex justify-between items-start mb-2">
+            <div>
+              <h3 className="font-bold text-lg text-white">{role}</h3>
+              <p className="text-accent text-sm font-medium">{company}</p>
+            </div>
+            <span className="text-xs text-gray-500 bg-white/5 px-2 py-1 rounded">{date}</span>
+          </div>
+          <ul className="space-y-2 mt-4">
+            {description.map((item, i) => (
+              <li key={i} className="text-gray-400 text-sm flex items-start gap-2">
+                <span className="mt-1.5 w-1 h-1 bg-accent/50 rounded-full shrink-0"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      );
+}
+
+      function ProjectCard({title, tech, description, links, icon}: {title: string, tech: string, description: string, links: {live: string }, icon?: React.ReactNode }) {
+  return (
+      <div className="group bg-surface/30 border border-white/5 rounded-xl p-6 hover:border-accent/50 transition-all hover:shadow-[0_0_30px_var(--color-glow)] flex flex-col h-full backdrop-blur-sm">
+        <div className="mb-4 flex items-start justify-between">
+          <div>
+            <h3 className="text-xl font-bold text-white group-hover:text-accent transition-colors">{title}</h3>
+            <p className="text-xs text-accent/80 mt-1 font-mono">{tech}</p>
+          </div>
+          {icon && (
+            <div className="text-3xl text-accent/50 group-hover:text-accent transition-colors">
+              {icon}
+            </div>
+          )}
+        </div>
+        <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
+          {description}
+        </p>
+        <div className="flex gap-4 pt-4 border-t border-white/5">
+          <a href={links.live} target="_blank" className="text-sm font-semibold text-white hover:text-accent flex items-center gap-2 transition-colors">
+            Live Demo →
+          </a>
+        </div>
+      </div>
+      );
+}
+    </main>
+    </AchievementProvider >
+  );
+}
