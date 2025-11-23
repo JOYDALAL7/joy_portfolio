@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaTrophy, FaTimes } from "react-icons/fa";
+import { FaTrophy, FaTimes, FaChevronUp, FaChevronDown, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 export default function SnakeGame() {
     const [isOpen, setIsOpen] = useState(false);
@@ -11,6 +11,8 @@ export default function SnakeGame() {
     const [snake, setSnake] = useState([{ x: 10, y: 10 }]);
     const [food, setFood] = useState({ x: 15, y: 15 });
     const [direction, setDirection] = useState({ x: 0, y: 0 });
+    const [isTouchDevice, setIsTouchDevice] = useState(false);
+    const touchStartRef = useRef({ x: 0, y: 0 });
 
     // Konami Code Logic
     useEffect(() => {
@@ -88,6 +90,61 @@ export default function SnakeGame() {
         return () => window.removeEventListener("keydown", handleControls);
     }, [isOpen, direction]);
 
+    // Touch controls
+    useEffect(() => {
+        setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    }, []);
+
+    const handleTouchStart = (e: React.TouchEvent) => {
+        touchStartRef.current = {
+            x: e.touches[0].clientX,
+            y: e.touches[0].clientY
+        };
+    };
+
+    const handleTouchEnd = (e: React.TouchEvent) => {
+        if (!isOpen || gameOver) return;
+
+        const touchEnd = {
+            x: e.changedTouches[0].clientX,
+            y: e.changedTouches[0].clientY
+        };
+
+        const dx = touchEnd.x - touchStartRef.current.x;
+        const dy = touchEnd.y - touchStartRef.current.y;
+        const absDx = Math.abs(dx);
+        const absDy = Math.abs(dy);
+
+        // Minimum swipe distance
+        if (absDx < 30 && absDy < 30) return;
+
+        // Determine swipe direction
+        if (absDx > absDy) {
+            // Horizontal swipe
+            if (dx > 0 && direction.x === 0) {
+                setDirection({ x: 1, y: 0 }); // Right
+            } else if (dx < 0 && direction.x === 0) {
+                setDirection({ x: -1, y: 0 }); // Left
+            }
+        } else {
+            // Vertical swipe
+            if (dy > 0 && direction.y === 0) {
+                setDirection({ x: 0, y: 1 }); // Down
+            } else if (dy < 0 && direction.y === 0) {
+                setDirection({ x: 0, y: -1 }); // Up
+            }
+        }
+    };
+
+    const handleDirectionButton = (newDirection: { x: number, y: number }) => {
+        if (gameOver) return;
+        if (newDirection.x !== 0 && direction.x === 0) {
+            setDirection(newDirection);
+        } else if (newDirection.y !== 0 && direction.y === 0) {
+            setDirection(newDirection);
+        }
+    };
+
     const resetGame = () => {
         setSnake([{ x: 10, y: 10 }]);
         setScore(0);
@@ -143,7 +200,11 @@ export default function SnakeGame() {
 
                         {/* Game Board */}
                         <div className="relative p-6">
-                            <div className="relative aspect-square bg-black/90 border-2 border-accent/30 rounded-lg overflow-hidden grid grid-cols-[repeat(20,1fr)] grid-rows-[repeat(20,1fr)] gap-[2px] bg-white/5">
+                            <div
+                                className="relative aspect-square bg-black/90 border-2 border-accent/30 rounded-lg overflow-hidden grid grid-cols-[repeat(20,1fr)] grid-rows-[repeat(20,1fr)] gap-[2px] bg-white/5"
+                                onTouchStart={handleTouchStart}
+                                onTouchEnd={handleTouchEnd}
+                            >
                                 {/* Snake Segments */}
                                 {snake.map((segment, i) => (
                                     <div
@@ -189,7 +250,7 @@ export default function SnakeGame() {
                                             </div>
                                             <button
                                                 onClick={resetGame}
-                                                className="px-10 py-5 bg-accent text-white font-bold text-xl rounded-lg hover:bg-accent/90 transition-all shadow-[0_0_40px_var(--color-glow)] hover:shadow-[0_0_60px_var(--color-glow)] border-4 border-accent hover:scale-105"
+                                                className="px-10 py-5 bg-accent text-white font-bold text-xl rounded-lg hover:bg-accent/90 active:scale-95 transition-all shadow-[0_0_40px_var(--color-glow)] border-4 border-accent"
                                             >
                                                 RESTART GAME
                                             </button>
@@ -202,8 +263,40 @@ export default function SnakeGame() {
                             {!direction.x && !direction.y && !gameOver && (
                                 <div className="mt-4 text-center">
                                     <p className="text-accent/60 text-sm font-mono animate-pulse">
-                                        <span className="text-accent">▸</span> Press any arrow key to start
+                                        <span className="text-accent">▸</span> {isTouchDevice ? 'Swipe or tap buttons to start' : 'Press any arrow key to start'}
                                     </p>
+                                </div>
+                            )}
+
+                            {/* Mobile Touch Controls */}
+                            {isTouchDevice && (
+                                <div className="mt-6 flex flex-col items-center gap-2">
+                                    <button
+                                        onClick={() => handleDirectionButton({ x: 0, y: -1 })}
+                                        className="p-3 bg-accent/20 border-2 border-accent/50 rounded-lg active:bg-accent/40 transition-all active:scale-95"
+                                    >
+                                        <FaChevronUp className="text-accent text-xl" />
+                                    </button>
+                                    <div className="flex gap-2">
+                                        <button
+                                            onClick={() => handleDirectionButton({ x: -1, y: 0 })}
+                                            className="p-3 bg-accent/20 border-2 border-accent/50 rounded-lg active:bg-accent/40 transition-all active:scale-95"
+                                        >
+                                            <FaChevronLeft className="text-accent text-xl" />
+                                        </button>
+                                        <button
+                                            onClick={() => handleDirectionButton({ x: 0, y: 1 })}
+                                            className="p-3 bg-accent/20 border-2 border-accent/50 rounded-lg active:bg-accent/40 transition-all active:scale-95"
+                                        >
+                                            <FaChevronDown className="text-accent text-xl" />
+                                        </button>
+                                        <button
+                                            onClick={() => handleDirectionButton({ x: 1, y: 0 })}
+                                            className="p-3 bg-accent/20 border-2 border-accent/50 rounded-lg active:bg-accent/40 transition-all active:scale-95"
+                                        >
+                                            <FaChevronRight className="text-accent text-xl" />
+                                        </button>
+                                    </div>
                                 </div>
                             )}
                         </div>
@@ -211,7 +304,7 @@ export default function SnakeGame() {
                         {/* Footer Controls */}
                         <div className="relative px-6 py-4 border-t border-white/10 bg-white/5">
                             <div className="grid grid-cols-3 gap-2 text-xs font-mono text-gray-500 text-center">
-                                <div><span className="text-accent">↑↓←→</span> Move</div>
+                                <div><span className="text-accent">{isTouchDevice ? '👆' : '↑↓←→'}</span> Move</div>
                                 <div><span className="text-accent">ESC</span> Close</div>
                                 <div><span className="text-accent">Score</span> {score}</div>
                             </div>
