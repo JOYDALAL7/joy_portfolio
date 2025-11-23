@@ -17,8 +17,8 @@ export default function Section({ id, title, children }: { id: string, title?: s
                 <div className="absolute -left-4 top-0 w-1 h-0 bg-accent group-hover:h-full transition-all duration-500" />
 
                 {title && (
-                    <h2 className="text-3xl md:text-5xl font-bold mb-12 text-center">
-                        <span className="border-b-4 border-accent pb-2">{title}</span>
+                    <h2 className="text-2xl md:text-5xl font-bold mb-12 text-center">
+                        <span className="inline-block border-b-4 border-accent pb-3 leading-relaxed">{title}</span>
                     </h2>
                 )}
                 {children}
