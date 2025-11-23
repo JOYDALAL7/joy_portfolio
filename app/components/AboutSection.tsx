@@ -9,6 +9,17 @@ export default function AboutSection() {
     const fullText = "Full-stack developer passionate about building scalable web applications and solving complex problems. Experienced with React, Next.js, Node.js, Express, MongoDB, and cloud deployment. I focus on writing clean, efficient code and creating seamless user experiences. Currently exploring AI integration and modern development tools to build innovative solutions.";
 
     useEffect(() => {
+        // Detect mobile for performance optimization
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
+            ('ontouchstart' in window) ||
+            (window.innerWidth < 768);
+
+        // On mobile, skip animation and show text immediately
+        if (isMobile) {
+            setDecryptedText(fullText);
+            return;
+        }
+
         let iteration = 0;
         const interval = setInterval(() => {
             setDecryptedText(prev => {
@@ -25,6 +36,7 @@ export default function AboutSection() {
 
             if (iteration >= fullText.length) {
                 clearInterval(interval);
+                setDecryptedText(fullText); // Ensure final text is correct
             }
 
             iteration += 1 / 2; // Slower decryption

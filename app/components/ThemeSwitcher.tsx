@@ -93,11 +93,11 @@ export default function ThemeSwitcher() {
     }, []);
 
     return (
-        <div className="fixed bottom-8 right-8 z-50">
+        <div className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-40">
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        className="absolute bottom-20 right-0 bg-black/90 border border-accent/30 rounded-xl overflow-hidden backdrop-blur-xl min-w-[240px]"
+                        className="absolute bottom-16 md:bottom-20 right-0 bg-black/90 border border-accent/30 rounded-xl overflow-hidden backdrop-blur-xl min-w-[240px] max-h-[60vh] md:max-h-none overflow-y-auto"
                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
@@ -178,15 +178,15 @@ export default function ThemeSwitcher() {
                 <div className="absolute -inset-2 bg-accent/40 rounded-2xl blur-xl opacity-60 group-hover:opacity-100 transition-opacity animate-pulse" />
 
                 {/* Button */}
-                <div className="relative bg-gradient-to-br from-accent/20 to-accent/10 border-2 border-accent/50 rounded-2xl px-5 py-3.5 backdrop-blur-md hover:border-accent transition-all shadow-[0_0_20px_var(--color-glow)]">
-                    <div className="flex items-center gap-3">
+                <div className="relative bg-gradient-to-br from-accent/20 to-accent/10 border-2 border-accent/50 rounded-2xl px-3 py-2.5 md:px-5 md:py-3.5 backdrop-blur-md hover:border-accent transition-all shadow-[0_0_20px_var(--color-glow)]">
+                    <div className="flex items-center gap-2 md:gap-3">
                         <motion.div
                             animate={{ rotate: isOpen ? 180 : 0 }}
                             transition={{ duration: 0.4, type: "spring" }}
                         >
-                            <FaCog className="text-accent text-2xl drop-shadow-[0_0_8px_var(--color-glow)]" />
+                            <FaCog className="text-accent text-xl md:text-2xl drop-shadow-[0_0_8px_var(--color-glow)]" />
                         </motion.div>
-                        <span className="text-sm font-mono font-bold text-accent">THEME</span>
+                        <span className="text-xs md:text-sm font-mono font-bold text-accent">THEME</span>
                     </div>
                 </div>
             </motion.button>

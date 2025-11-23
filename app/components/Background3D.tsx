@@ -12,6 +12,11 @@ export default function Background3D() {
         const ctx = canvas.getContext("2d");
         if (!ctx) return;
 
+        // Detect mobile devices
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
+            ('ontouchstart' in window) ||
+            (window.innerWidth < 768);
+
         let width = window.innerWidth;
         let height = window.innerHeight;
 
@@ -19,9 +24,12 @@ export default function Background3D() {
         canvas.height = height;
 
         const particles: Particle[] = [];
-        const particleCount = Math.min(Math.floor(width * height / 15000), 100);
-        const connectionDistance = 150;
-        const mouseDistance = 200;
+        // Significantly reduce particles on mobile for better performance
+        const particleCount = isMobile
+            ? Math.min(Math.floor(width * height / 50000), 30)
+            : Math.min(Math.floor(width * height / 15000), 100);
+        const connectionDistance = isMobile ? 100 : 150;
+        const mouseDistance = isMobile ? 0 : 200; // Disable mouse interaction on mobile
 
         let mouseX = 0;
         let mouseY = 0;
@@ -151,12 +159,17 @@ export default function Background3D() {
                     const parallaxYi = particle.y - (scrollY * particle.depth * 0.2);
                     const displayYi = (parallaxYi % height + height) % height;
 
-                    ctx.shadowBlur = 10;
-                    ctx.shadowColor = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 1)`;
+                    // Only apply shadow on desktop for performance
+                    if (!isMobile) {
+                        ctx.shadowBlur = 10;
+                        ctx.shadowColor = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 1)`;
+                    }
                     ctx.moveTo(particle.x, displayYi);
                     ctx.lineTo(mouseX, mouseY);
                     ctx.stroke();
-                    ctx.shadowBlur = 0; // Reset shadow
+                    if (!isMobile) {
+                        ctx.shadowBlur = 0; // Reset shadow
+                    }
                 }
             });
 

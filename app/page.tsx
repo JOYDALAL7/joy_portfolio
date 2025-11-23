@@ -1,39 +1,48 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import { SiReact, SiNextdotjs, SiNodedotjs, SiMongodb, SiTailwindcss, SiTypescript, SiJavascript, SiPython, SiAmazon, SiDocker, SiGit, SiLinux } from "react-icons/si";
 import { motion } from "framer-motion";
 import Navbar from "./components/Navbar";
 import Section from "./components/Section";
 import Hero from "./components/Hero";
-import Scene3D from "./components/Scene3D";
 import ScrollProgress from "./components/ScrollProgress";
-import TechDecoration from "./components/TechDecoration";
 import SkillBar from "./components/SkillBar";
 import ThemeSwitcher from "./components/ThemeSwitcher";
-import ContactForm from "./components/ContactForm";
-import SnakeGame from "./components/SnakeGame";
-import CommandPalette from "./components/CommandPalette";
-import Hero3D from "./components/Hero3D";
 import { AchievementProvider } from "./components/AchievementPopup";
-import SecurityBadge from "./components/SecurityBadge";
-import TreeConnection from "./components/TreeConnection";
-import CustomCursor from "./components/CustomCursor";
 import Dashboard from "./components/Dashboard";
-import ProfessionalJourney from "./components/ProfessionalJourney";
-
 import ProjectCard from "./components/ProjectCard";
-
 import AboutSection from "./components/AboutSection";
-import SystemMonitor from "./components/SystemMonitor";
-import EducationSection from "./components/EducationSection";
-import ContactSection from "./components/ContactSection";
 import FloatingSnakeButton from "./components/FloatingSnakeButton";
 
+// Lazy load heavy 3D and decorative components
+const Scene3D = dynamic(() => import("./components/Scene3D"), { ssr: false });
+const Hero3D = dynamic(() => import("./components/Hero3D"), { ssr: false });
+const TechDecoration = dynamic(() => import("./components/TechDecoration"), { ssr: false });
+const CustomCursor = dynamic(() => import("./components/CustomCursor"), { ssr: false });
+
+// Lazy load below-fold components
+const ProfessionalJourney = dynamic(() => import("./components/ProfessionalJourney"));
+const EducationSection = dynamic(() => import("./components/EducationSection"));
+const SystemMonitor = dynamic(() => import("./components/SystemMonitor"));
+const ContactSection = dynamic(() => import("./components/ContactSection"));
+const SnakeGame = dynamic(() => import("./components/SnakeGame"), { ssr: false });
+const CommandPalette = dynamic(() => import("./components/CommandPalette"), { ssr: false });
+
 export default function HomePage() {
+  const [isTouchDevice, setIsTouchDevice] = useState(true); // Default to true for SSR
+
+  useEffect(() => {
+    // Detect touch device on client side
+    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  }, []);
+
   return (
     <AchievementProvider>
-      <CustomCursor />
+      {/* Only render custom cursor on non-touch devices */}
+      {!isTouchDevice && <CustomCursor />}
       <main className="min-h-screen bg-background text-white bg-grid relative overflow-x-hidden">
         {/* Global Components */}
         <ScrollProgress />

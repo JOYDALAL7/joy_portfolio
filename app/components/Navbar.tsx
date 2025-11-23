@@ -112,7 +112,7 @@ export default function Navbar() {
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
-                        className="absolute top-full left-0 right-0 mt-4 mx-auto w-full bg-surface/95 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex flex-col items-center gap-6 md:hidden shadow-2xl"
+                        className="absolute top-full left-0 right-0 mt-4 mx-4 w-auto bg-surface/95 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex flex-col items-center gap-6 md:hidden shadow-2xl max-h-[60vh] overflow-y-auto"
                     >
                         {navLinks.map((link) => (
                             <a
@@ -124,6 +124,17 @@ export default function Navbar() {
                                 {link.name}
                             </a>
                         ))}
+
+                        {/* Mobile Resume Button */}
+                        <a
+                            href="/resume.pdf"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-8 py-3 text-sm font-bold text-black bg-white rounded-full hover:shadow-[0_0_20px_white] hover:scale-105 transition-all duration-300 w-full text-center"
+                            onClick={() => setIsOpen(false)}
+                        >
+                            Resume
+                        </a>
                     </motion.div>
                 )}
             </div>
